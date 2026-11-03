@@ -1,52 +1,61 @@
 package it.unibo.inner.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import it.unibo.inner.api.IterableWithPolicy;
 import it.unibo.inner.api.Predicate;
 
 public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
-    private Collection<T> array;
+    private T[] array;
     private Predicate<T> filter;
 
-    public IterableWithPolicyImpl(Collection<T> array) {
+    public IterableWithPolicyImpl(T[] array) {
         this(array, x -> true);
     }
 
-    public IterableWithPolicyImpl(Collection<T> array, Predicate<T> filter) {
-        this.array.addAll(array);
+    public IterableWithPolicyImpl(T[] array, Predicate<T> filter) {
+        this.array = array;
         this.filter = filter;
     }
 
     private static class InnerIterator<T> implements Iterator<T> {
 
+        private int index;
+        private T[] array;
+
+        public InnerIterator(T[] array) {
+            this.index = 0;
+            this.array = array;
+        }
+
         @Override
         public boolean hasNext() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'hasNext'");
+            return this.index < this.array.length ? true : false;
         }
 
         @Override
         public T next() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'next'");
+            if (this.hasNext()) {
+                T toReturn = this.array[index];
+                this.index++;
+                return toReturn;
+            } else {
+                throw new NoSuchElementException();
+            }
         }
 
     }
 
     @Override
     public Iterator<T> iterator() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'iterator'");
+        return new InnerIterator<>(array);
     }
 
     @Override
     public void setIterationPolicy(Predicate<T> filter) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setIterationPolicy'");
+
     }
 
 }
