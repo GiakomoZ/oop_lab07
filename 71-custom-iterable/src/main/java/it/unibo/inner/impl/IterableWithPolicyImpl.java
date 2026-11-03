@@ -12,7 +12,11 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
     private Predicate<T> filter;
 
     public IterableWithPolicyImpl(T[] array) {
-        this(array, x -> true);
+        this(array, new Predicate<>() {
+            public boolean test(T elem) {
+                return true;
+            }
+        });
     }
 
     public IterableWithPolicyImpl(T[] array, Predicate<T> filter) {
