@@ -2,6 +2,7 @@ package it.unibo.inner;
 
 import it.unibo.inner.api.IterableWithPolicy;
 import it.unibo.inner.api.Predicate;
+import it.unibo.inner.impl.IterableWithPolicyImpl;
 import it.unibo.inner.test.api.Product;
 import it.unibo.inner.test.impl.ProductImpl;
 
@@ -12,14 +13,15 @@ import static it.unibo.inner.test.Assertions.assertContentEqualsInOrder;
 
 public class TestIterableWithPolicy {
 
-    private TestIterableWithPolicy() {}
+    private TestIterableWithPolicy() {
+    }
 
     private static <T> IterableWithPolicy<T> makeIterableWithPolicy(final T[] elements, final Predicate<T> filter) {
-        return null; // TODO: return the implementation of IterableWithPolicy
+        return new IterableWithPolicyImpl<>(elements, filter); // TODO: return the implementation of IterableWithPolicy
     }
 
     private static <T> IterableWithPolicy<T> makeIterableWithPolicy(final T[] elements) {
-        return null; // TODO: return the implementation of IterableWithPolicy
+        return new IterableWithPolicyImpl<>(elements); // TODO: return the implementation of IterableWithPolicy
     }
 
     public static void main() {
@@ -59,7 +61,8 @@ public class TestIterableWithPolicy {
         assertContentEqualsInOrder(List.of("pippo", "pluto", "foo", "bar"), allIterable);
         // Test changes in policy
         final IterableWithPolicy<String> switchPolicy = makeIterableWithPolicy(test1);
-        // By default, if no Predicate is given, the iterator should iterate all the elements
+        // By default, if no Predicate is given, the iterator should iterate all the
+        // elements
         assertContentEqualsInOrder(List.of("pippo", "pluto", "foo", "bar"), switchPolicy);
         switchPolicy.setIterationPolicy(filterOutAll);
         // After setting a new policy, the iterator should return no elements
@@ -88,7 +91,8 @@ public class TestIterableWithPolicy {
         };
         final IterableWithPolicy<Product> availableProducts = makeIterableWithPolicy(productsTest, filterAllAvailable);
         assertContentEqualsInOrder(Arrays.asList(prod2, prod3, prod4, prod5), availableProducts);
-        final IterableWithPolicy<Product> expensiveProducts = makeIterableWithPolicy(productsTest, filterGraterThanFifty);
+        final IterableWithPolicy<Product> expensiveProducts = makeIterableWithPolicy(productsTest,
+                filterGraterThanFifty);
         assertContentEqualsInOrder(Arrays.asList(prod2, prod5), expensiveProducts);
         final IterableWithPolicy<Product> onlyProductOne = makeIterableWithPolicy(productsTest, takeOnlyProductOne);
         assertContentEqualsInOrder(List.of(prod1), onlyProductOne);

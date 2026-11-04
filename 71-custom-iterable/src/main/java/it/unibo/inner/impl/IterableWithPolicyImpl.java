@@ -28,14 +28,19 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
         private int index;
         private T[] array;
+        private Predicate<T> filter;
 
-        public InnerIterator(T[] array) {
+        public InnerIterator(T[] array, Predicate<T> filter) {
             this.index = 0;
             this.array = array;
+            this.filter = filter;
         }
 
         @Override
         public boolean hasNext() {
+            while (index < this.array.length && !this.filter.test(this.array[index])) {
+                index++;
+            }
             return this.index < this.array.length ? true : false;
         }
 
@@ -54,12 +59,12 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new InnerIterator<>(array);
+        return new InnerIterator<>(array, filter);
     }
 
     @Override
     public void setIterationPolicy(Predicate<T> filter) {
-
+        this.filter = filter;
     }
 
 }
