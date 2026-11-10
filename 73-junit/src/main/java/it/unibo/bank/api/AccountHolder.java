@@ -11,9 +11,9 @@ public final class AccountHolder {
     /**
      * Builds a new {@link AccountHolder}.
      *
-     * @param name the name of the bank account holder.
+     * @param name    the name of the bank account holder.
      * @param surname the surname of the bank account holder.
-     * @param id the user id of the bank account holder.
+     * @param id      the user id of the bank account holder.
      */
     public AccountHolder(final String name, final String surname, final int id) {
         this.name = name;
@@ -51,7 +51,7 @@ public final class AccountHolder {
     @Override
     public String toString() {
         return "AccountHolder [name=" + this.name
-            + ", surname=" + this.surname
-            + ", userID=" + this.id + "]";
+                + ", surname=" + this.surname
+                + ", userID=" + this.id + "]";
     }
 }
