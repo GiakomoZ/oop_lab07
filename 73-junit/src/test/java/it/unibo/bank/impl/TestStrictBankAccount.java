@@ -61,7 +61,7 @@ class TestStrictBankAccount {
     void testNegativeWithdraw() {
         final double previousBalance = bankAccount.getBalance();
         try {
-            bankAccount.deposit(mRossi.getUserID(), NEGATIVE_AMOUNT);
+            bankAccount.withdraw(mRossi.getUserID(), NEGATIVE_AMOUNT);
         } catch (final IllegalArgumentException e) {
             assertEquals(previousBalance, bankAccount.getBalance()); // No money was withdrawed
             assertNotNull(e.getMessage()); // Non-null message
